@@ -8,8 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAttribute;
 
@@ -23,7 +22,7 @@ public class Footballer implements Serializable{
 	String surname;
 	int age;
 	int number;
-	//Set<Goal> goals = new HashSet<Goal>();
+	Set<Goal> goals = new HashSet<Goal>();
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -71,5 +70,14 @@ public class Footballer implements Serializable{
 	
 	public void setNumber(int number) {
 		this.number = number;
+	}
+	
+	@OneToMany
+	public Set<Goal> getGoals(){
+		return goals;
+	}
+	
+	public void setGoals(Set<Goal> goals){
+		this.goals = goals;
 	}
 }
