@@ -25,13 +25,6 @@ public class Goal implements Serializable {
 	Footballer footballer;
 	Match match;
 	
-	public Goal(String teamName, Match match, Footballer footballer, LocalTime time){
-		this.teamName = teamName;
-		this.match = match;
-		this.footballer = footballer;
-		this.time = time;
-	}
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "Id")

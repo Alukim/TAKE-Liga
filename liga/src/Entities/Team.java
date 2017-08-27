@@ -26,12 +26,6 @@ public class Team implements Serializable {
 	Set<Footballer> footballers = new HashSet<Footballer>();
 	Set<Match> matches = new HashSet<Match>();
 	
-	public Team(String name, String city, String league){
-		this.name = name;
-		this.city = city;
-		this.league = league;
-	}
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "Id")

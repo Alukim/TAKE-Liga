@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libraryInfos>
+<libraryInfo home="D:\Projekty\TAKE\jdk" version="1.8.0_73">
+<bootpath>
+<entry path="D:\Projekty\TAKE\jdk\jre\lib\resources.jar"/>
+<entry path="D:\Projekty\TAKE\jdk\jre\lib\rt.jar"/>
+<entry path="D:\Projekty\TAKE\jdk\jre\lib\sunrsasign.jar"/>
+<entry path="D:\Projekty\TAKE\jdk\jre\lib\jsse.jar"/>
+<entry path="D:\Projekty\TAKE\jdk\jre\lib\jce.jar"/>
+<entry path="D:\Projekty\TAKE\jdk\jre\lib\charsets.jar"/>
+<entry path="D:\Projekty\TAKE\jdk\jre\lib\jfr.jar"/>
+<entry path="D:\Projekty\TAKE\jdk\jre\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="D:\Projekty\TAKE\jdk\jre\lib\ext"/>
+<entry path="C:\WINDOWS\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="D:\Projekty\TAKE\jdk\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+</libraryInfos>

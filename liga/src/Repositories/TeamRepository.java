@@ -28,7 +28,7 @@ public class TeamRepository {
 		return list;
 	}
 	
-	public Team getFootballerById(int id) {
+	public Team getTeamById(int id) {
 		return manager.find(Team.class, id);
 	}
 }

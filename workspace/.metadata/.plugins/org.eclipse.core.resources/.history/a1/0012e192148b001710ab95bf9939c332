@@ -1,0 +1,46 @@
+package Controllers.Goals;
+
+import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import DTO.Goal.GoalsListResponse;
+import Entities.Goal;
+import Repositories.GoalRepository;
+
+@Path("/goals")
+@Consumes({ "application/json" })
+@Produces({ "application/json" })
+public class GoalsController implements IGoalsController{
+
+	@EJB
+	GoalRepository repository;
+	
+	@Override
+	public Response create(Goal goal) {
+		repository.create(goal);
+		return Response.status(Status.CREATED).entity(goal.getId()).build();
+	}
+
+	@Override
+	public Response update(int id, Goal goal) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Goal getById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GoalsListResponse getList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

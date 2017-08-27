@@ -28,7 +28,7 @@ public class GoalRepository {
 		return list;
 	}
 	
-	public Goal getFootballerById(int id) {
+	public Goal getGoalById(int id) {
 		return manager.find(Goal.class, id);
 	}
 }

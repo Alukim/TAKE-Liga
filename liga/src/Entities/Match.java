@@ -30,14 +30,6 @@ public class Match implements Serializable {
 	Team host;
 	Team guest;
 	
-	public Match(LocalDate date, LocalTime time, String city, Team host, Team guest){
-		this.date = date;
-		this.time = time;
-		this.city = city;
-		this.host = host;
-		this.guest = guest;
-	}
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "Id")

@@ -27,7 +27,7 @@ public class MatchRepository {
 		return list;
 	}
 	
-	public Match getFootballerById(int id) {
+	public Match getMatchById(int id) {
 		return manager.find(Match.class, id);
 	}
 }
