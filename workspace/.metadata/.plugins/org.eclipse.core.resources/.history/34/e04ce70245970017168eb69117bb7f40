@@ -75,10 +75,6 @@ public class Goal implements Serializable {
 		this.time = time;
 	}
 	
-	public void setTime(String time){
-		this.time = LocalTime.parse(time);
-	}
-	
 	
 	public String getTeamName(){
 		return teamName;

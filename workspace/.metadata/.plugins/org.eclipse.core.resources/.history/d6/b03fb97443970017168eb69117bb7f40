@@ -87,10 +87,6 @@ public class Match implements Serializable {
 	public void setTime(LocalTime time){
 		this.time = time;
 	}
-	
-	public void setTime(String time){
-		this.time = LocalTime.parse(time);
-	}
 
 	public Team getHostTeam() {
 		return host;

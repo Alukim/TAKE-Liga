@@ -39,10 +39,10 @@ public class Team implements Serializable {
 	@Column(name = "League")
 	String league;
 	
-	@OneToMany(targetEntity=Footballer.class, fetch=FetchType.EAGER)
+	@OneToMany(targetEntity=Footballer.class, fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	Collection<Footballer> footballers = new LinkedHashSet<Footballer>();
 	
-	@OneToMany(targetEntity=Match.class, fetch=FetchType.EAGER)
+	@OneToMany(targetEntity=Match.class, fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	Collection<Match> matches = new LinkedHashSet<Match>();
 	
 	

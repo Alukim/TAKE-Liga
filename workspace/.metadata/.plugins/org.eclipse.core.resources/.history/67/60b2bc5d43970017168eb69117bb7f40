@@ -70,10 +70,6 @@ public class Match implements Serializable {
 		return date;
 	}
 	
-	public void setDate(LocalDate date){
-		this.date = date;
-	}
-	
 	public void setDate(String date){
 		this.date = LocalDate.parse(date);
 	}
@@ -86,10 +82,6 @@ public class Match implements Serializable {
 	
 	public void setTime(LocalTime time){
 		this.time = time;
-	}
-	
-	public void setTime(String time){
-		this.time = LocalTime.parse(time);
 	}
 
 	public Team getHostTeam() {

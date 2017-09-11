@@ -40,7 +40,6 @@ public class Match implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") 
 	LocalDate date;
 	@Column(name = "Time")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm")
 	LocalTime time;
 	@Column(name = "City")
 	String city;
@@ -74,10 +73,6 @@ public class Match implements Serializable {
 		this.date = date;
 	}
 	
-	public void setDate(String date){
-		this.date = LocalDate.parse(date);
-	}
-	
 	
 	
 	public LocalTime getTime(){
@@ -86,10 +81,6 @@ public class Match implements Serializable {
 	
 	public void setTime(LocalTime time){
 		this.time = time;
-	}
-	
-	public void setTime(String time){
-		this.time = LocalTime.parse(time);
 	}
 
 	public Team getHostTeam() {

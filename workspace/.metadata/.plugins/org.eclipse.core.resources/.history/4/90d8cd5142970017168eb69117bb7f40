@@ -19,7 +19,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -37,10 +36,8 @@ public class Match implements Serializable {
 	@XmlAttribute
 	int id;
 	@Column(name = "Date")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") 
 	LocalDate date;
 	@Column(name = "Time")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm")
 	LocalTime time;
 	@Column(name = "City")
 	String city;
@@ -74,10 +71,6 @@ public class Match implements Serializable {
 		this.date = date;
 	}
 	
-	public void setDate(String date){
-		this.date = LocalDate.parse(date);
-	}
-	
 	
 	
 	public LocalTime getTime(){
@@ -86,10 +79,6 @@ public class Match implements Serializable {
 	
 	public void setTime(LocalTime time){
 		this.time = time;
-	}
-	
-	public void setTime(String time){
-		this.time = LocalTime.parse(time);
 	}
 
 	public Team getHostTeam() {
