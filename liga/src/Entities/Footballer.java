@@ -1,15 +1,17 @@
 package Entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import javax.xml.bind.annotation.XmlAttribute;
 
 @Entity
@@ -17,17 +19,29 @@ import javax.xml.bind.annotation.XmlAttribute;
 @XmlRootElement
 public class Footballer implements Serializable{
 	private static final long serialVersionUID = 1l;
-	int id;
-	String name;
-	String surname;
-	int age;
-	int number;
-	Set<Goal> goals = new HashSet<Goal>();
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "Id")
 	@XmlAttribute
+	int id;
+	@Column(name = "Name")
+	String name;
+	@Column(name = "Surname")
+	String surname;
+	@Column(name = "Age")
+	int age;
+	@Column(name = "Number")
+	int number;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "TeamId")
+	Team team;
+	
+	@JsonInclude(Include.NON_NULL)
+	@OneToMany(targetEntity=Goal.class, fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	Collection<Goal> goals = new LinkedHashSet<Goal>();
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -36,7 +50,7 @@ public class Footballer implements Serializable{
 		this.id = id;
 	}
 	
-	@Column(name = "Name")
+	
 	public String getName() {
 		return name;
 	}
@@ -45,7 +59,7 @@ public class Footballer implements Serializable{
 		this.name = name;
 	}
 	
-	@Column(name = "Surname")
+	
 	public String getSurname() {
 		return surname;
 	}
@@ -54,7 +68,7 @@ public class Footballer implements Serializable{
 		this.surname = surname;
 	}
 	
-	@Column(name = "Age")
+	
 	public int getAge() {
 		return age;
 	}
@@ -63,7 +77,7 @@ public class Footballer implements Serializable{
 		this.age = age;
 	}
 	
-	@Column(name = "Number")
+	
 	public int getNumber() {
 		return number;
 	}
@@ -72,12 +86,19 @@ public class Footballer implements Serializable{
 		this.number = number;
 	}
 	
-	@OneToMany
-	public Set<Goal> getGoals(){
+	public Collection<Goal> getGoals(){
 		return goals;
 	}
 	
-	public void setGoals(Set<Goal> goals){
+	public void setGoals(Collection<Goal> goals){
 		this.goals = goals;
+	}
+	
+	public void setTeam(Team team){
+		this.team = team;
+	}
+	
+	public Team getTeam(){
+		return this.team;
 	}
 }

@@ -57,8 +57,9 @@ public class MatchesController implements IMatchesController {
 	@Override
 	@GET
 	@Path("/")
-	public List<Match> getList() {
-		return repository.getList();
+	public MatchesListResponse getList() {
+		List<Match> matches = repository.getList();
+		return new MatchesListResponse(matches);
 	}
 
 }

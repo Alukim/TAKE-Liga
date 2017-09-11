@@ -12,5 +12,5 @@ public interface IMatchesController {
 	public abstract Response create(Match match);
 	public abstract Response update(int id, Match match);
 	public abstract Match getById(int id);
-	public abstract List<Match> getList();
+	public abstract MatchesListResponse getList();
 }

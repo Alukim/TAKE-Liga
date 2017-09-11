@@ -1,5 +1,6 @@
 package Controllers.Teams;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -12,5 +13,5 @@ public interface ITeamsController {
 	public abstract Response create(Team team);
 	public abstract Response update(int id, Team team);
 	public abstract Team getById(int id);
-	public abstract List<Team> getList();
+	public abstract Collection<Team> getList();
 }

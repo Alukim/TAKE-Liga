@@ -12,5 +12,5 @@ public interface IGoalsController {
 	public abstract Response create(Goal team);
 	public abstract Response update(int id, Goal team);
 	public abstract Goal getById(int id);
-	public abstract List<Goal> getList();
+	public abstract GoalsListResponse getList();
 }

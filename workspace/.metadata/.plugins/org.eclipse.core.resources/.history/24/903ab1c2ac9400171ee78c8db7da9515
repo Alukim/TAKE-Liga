@@ -1,0 +1,7 @@
+package DTO.Match;
+
+import java.util.ArrayList;
+
+public class MatchesListResponse {
+	private List<Match> matches = new ArrayList<Match>();
+}

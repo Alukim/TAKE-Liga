@@ -58,8 +58,9 @@ public class GoalsController implements IGoalsController{
 	@Override
 	@GET
 	@Path("/")
-	public List<Goal> getList() {
-		return repository.getList();
+	public GoalsListResponse getList() {
+		List<Goal> goals = repository.getList();
+		return new GoalsListResponse(goals);
 	}
 
 }
