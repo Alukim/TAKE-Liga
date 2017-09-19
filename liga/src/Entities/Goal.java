@@ -22,18 +22,18 @@ import javax.xml.bind.annotation.XmlAttribute;
 @XmlRootElement
 public class Goal implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "Id")
-	@XmlAttribute
 	int id;
-	@Column(name = "Time")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm")
+	
+	@Column(name = "goal_time")
 	LocalTime time;
-	@Column(name = "TeamName")
+	
+	@Column(name = "goal_teamname")
 	String teamName;
 	
-	@ManyToOne(targetEntity=Footballer.class, fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "FootballerId")
 	Footballer footballer;
 	

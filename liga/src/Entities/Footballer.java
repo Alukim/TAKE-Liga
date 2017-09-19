@@ -15,30 +15,33 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import javax.xml.bind.annotation.XmlAttribute;
 
 @Entity
-@Table(name = "Footballer")
+@Table(name = "footballer")
 @XmlRootElement
 public class Footballer implements Serializable{
 	private static final long serialVersionUID = 1l;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "Id")
 	@XmlAttribute
 	int id;
-	@Column(name = "Name")
+	
+	@Column(name = "footballer.name")
 	String name;
-	@Column(name = "Surname")
+	
+	@Column(name = "footballer.surname")
 	String surname;
-	@Column(name = "Age")
+	
+	@Column(name = "footballer.age")
 	int age;
-	@Column(name = "Number")
+	
+	@Column(name = "footballer.number")
 	int number;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "TeamId")
 	Team team;
 	
-	@JsonInclude(Include.NON_NULL)
-	@OneToMany(targetEntity=Goal.class, fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "footballer", orphanRemoval = true)
 	Collection<Goal> goals = new LinkedHashSet<Goal>();
 	
 	
