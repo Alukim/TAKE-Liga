@@ -1,0 +1,16 @@
+package Logs;
+
+import java.time.LocalDateTime;
+
+public class TankMeasuresLog {
+	LocalDateTime dateTime;
+	int locationId; //empty
+	int meterId; //empty
+	int tankId;
+	int tankHigh;
+	float literCounter;
+	float stolenCounter;
+	float totalCounter;
+	float currentVolume;
+	int status;
+}

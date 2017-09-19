@@ -27,4 +27,5 @@
 	<target name="deploy" depends="war">
 		<copy file="dist/${ant.project.name}.war" todir="${jboss.home}/standalone/deployments" />
 	</target>
+
 </project>

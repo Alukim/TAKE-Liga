@@ -1,0 +1,17 @@
+package Logs;
+
+import java.time.LocalDateTime;
+
+import Providers.DateProvider;
+
+public class NozzleMeasuresLog {
+	LocalDateTime dateTime;
+	int locationId; //empty
+	int nozzleId;
+	int tankId;
+	float literCounter;
+	float stolenCounter;
+	float totalCounter;
+	float stolenVolume;
+	int status;
+}

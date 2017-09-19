@@ -9,6 +9,7 @@
 		<properties>
 			<!--<property name="hibernate.hbm2ddl.auto" value="create-drop" />-->
 			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			<property name="hibernate.max_fetch_depth" value="0"/>
 		</properties>
 	</persistence-unit>
 </persistence>

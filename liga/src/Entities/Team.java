@@ -19,31 +19,33 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
 @Entity
-@Table(name = "Team")
+@Table(name = "team")
 @XmlRootElement
 public class Team implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "Id")
+	@Column(name = "id")
 	@XmlAttribute
 	int id;
-	@Column(name = "Name")
+	@Column(name = "name")
 	String name;
-	@Column(name = "City")
+	@Column(name = "city")
 	String city;
-	@Column(name = "League")
+	@Column(name = "league")
 	String league;
 	
-	@OneToMany(targetEntity=Footballer.class, fetch=FetchType.EAGER)
-	Collection<Footballer> footballers = new LinkedHashSet<Footballer>();
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "team", orphanRemoval = true)
+	@JsonManagedReference(value="footballers")
+	Set<Footballer> footballers = new LinkedHashSet<Footballer>();
 	
-	@OneToMany(targetEntity=Match.class, fetch=FetchType.EAGER)
-	Collection<Match> matches = new LinkedHashSet<Match>();
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "team", orphanRemoval = true)
+	Set<Match> matches = new LinkedHashSet<Match>();
 	
 	
 	public int getId(){
@@ -84,7 +86,7 @@ public class Team implements Serializable {
 		return footballers;
 	}
 	
-	public void setFootballers(Collection<Footballer> footballers){
+	public void setFootballers(Set<Footballer> footballers){
 		this.footballers = footballers;				
 	}
 	
@@ -92,7 +94,7 @@ public class Team implements Serializable {
 		return matches;
 	}
 	
-	public void setMatches(Collection<Match> matches){
+	public void setMatches(Set<Match> matches){
 		this.matches = matches;
 	}
 }

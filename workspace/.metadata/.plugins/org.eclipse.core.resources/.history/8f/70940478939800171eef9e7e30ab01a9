@@ -1,0 +1,17 @@
+package Providers;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+public static class DateProvider {
+	public static LocalDate date = LocalDate.ofYearDay(2017, 1);
+	public static LocalTime time = LocalTime.of(0, 0);
+	
+	public static void moveTimeByNext(int minutes){
+		date = LocalDate.ofYearDay(2017, 1);
+		time = LocalTime.of(0, 0);
+	}
+	
+	
+}

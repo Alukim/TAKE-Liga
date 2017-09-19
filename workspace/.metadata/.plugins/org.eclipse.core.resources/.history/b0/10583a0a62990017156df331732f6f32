@@ -1,0 +1,89 @@
+package models;
+
+import java.util.LinkedList;
+import java.util.Random;
+
+import Exceptions.NotEnoughFuel;
+
+public class Nozzle {
+
+	int id;
+	Tank tank;
+	boolean isCurrentlyInUse = false;
+	float totalPetrolAmount = 0;
+	float totalStolenPetrolAmount = 0;
+	float fullRequestOfTransaction = 0;
+	float petrolAmountInCurrentTransaction = 0;
+	float lastTransactionIfStolen = 0;
+	Customer currentClient;
+	LinkedList<Customer> queue = new LinkedList<>();
+	Random random;
+	
+	public Nozzle(int id, Tank tank) {
+		this.id = id;
+		this.tank = tank;
+		random = new Random();
+	}
+	
+	public void handleQueue() throws NotEnoughFuel{		
+		if(isCurrentlyInUse)	
+			finishVehicleRefueling();
+		
+		if(queue.isEmpty()){
+			System.out.println("No customers in queue");
+			return;
+		}			
+		
+		isCurrentlyInUse = true;
+		currentClient = queue.getFirst();
+		
+		try {
+			startVehicleRefueling(currentClient.getOrder());
+		} catch (NotEnoughFuel e) {
+			e.setUnHandledCustomer(currentClient);
+			queue.remove(currentClient);
+			throw e;
+		}
+		
+		queue.remove(currentClient);
+	}
+	
+	private void startVehicleRefueling(float petrolAmount) throws NotEnoughFuel{	
+		try {
+			tank.reservePetrol(petrolAmount);
+		} catch (NotEnoughFuel e) {
+			isCurrentlyInUse = false;
+			throw e;
+		}
+		fullRequestOfTransaction = petrolAmount;				
+		petrolAmountInCurrentTransaction = random.nextFloat() * petrolAmount;
+	}
+
+	private void finishVehicleRefueling(){		
+		totalPetrolAmount += fullRequestOfTransaction;
+		
+		isCurrentlyInUse = false;
+		System.out.println("Customer refueled vehicle. Order: " + fullRequestOfTransaction);
+		if(currentClient.payForOrder()){
+			totalStolenPetrolAmount += 0;
+			lastTransactionIfStolen = 
+		}			
+		else{
+			
+			totalStolenPetrolAmount += fullRequestOfTransaction;
+		}
+		petrolAmountInCurrentTransaction = 0;	
+	}
+	
+	boolean isInUse(){
+		return isCurrentlyInUse;
+	}
+	
+	public int getQueueLength(){
+		return queue.size();
+	}
+	
+	public void addCustomerToQueue(Customer customer){
+		queue.add(customer);
+	}
+}

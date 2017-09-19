@@ -1,0 +1,9 @@
+package Logs;
+
+import java.util.ArrayList;
+
+public class LogsProvider {
+	public static ArrayList<RefuelLog> refuelLogs = new ArrayList<>();
+	public static ArrayList<NozzleMeasuresLog> nozzleMeasuresLogs = new ArrayList<>();
+	public static ArrayList<TankMeasuresLog> tankMeasuresLog = new ArrayList<>();
+}
