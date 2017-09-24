@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;games/footballer/FootballerController.java&apos; to &apos;FootballerREST.java&apos;" description="Rename resource &apos;FootballerController.java&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="footballer/FootballerController.java" name="FootballerREST.java" stamp="1496776962555" updateReferences="true"/>
-</session>
