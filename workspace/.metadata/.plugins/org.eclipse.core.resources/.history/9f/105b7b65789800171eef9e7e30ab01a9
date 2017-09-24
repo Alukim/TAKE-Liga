@@ -1,0 +1,11 @@
+package Exceptions;
+
+import models.Customer;
+
+public class NotEnoughFuel extends Exception {
+	Customer customer;
+	
+	public void SetUnHandledCustomer(Customer customer){
+		this.customer = customer;
+	}
+}

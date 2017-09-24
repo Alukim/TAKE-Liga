@@ -28,6 +28,11 @@ public class MatchRepository {
 	}
 	
 	public Match getMatchById(int id) {
-		return manager.find(Match.class, id);
+		Query q = manager.createQuery(
+				"select t from Match t " +
+				"left join fetch t.goals " +
+				"where t.id = :id ")
+				.setParameter("id", id);
+		return (Match)q.getSingleResult();
 	}
 }

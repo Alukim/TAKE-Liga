@@ -29,6 +29,12 @@ public class GoalRepository {
 	}
 	
 	public Goal getGoalById(int id) {
-		return manager.find(Goal.class, id);
+		Query q = manager.createQuery(
+				"select g from Goal g " +
+				"join fetch g.match " + 
+				"join fetch g.footballer " +
+				"where g.id = :id"
+				).setParameter("id", id);
+		return (Goal) q.getSingleResult();
 	}
 }

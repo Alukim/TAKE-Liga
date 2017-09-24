@@ -1,0 +1,41 @@
+package Repositories;
+
+import java.util.Collection;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import Entities.Team;
+
+@Stateless
+public class TeamRepository {
+	
+	@PersistenceContext(name="Team")
+	EntityManager manager;
+	
+	public void create(Team team) {
+		manager.persist(team);
+	}
+	
+	public void update(Team team) {
+		manager.merge(team);
+	}
+	
+	public Collection<Team> getList() {
+		Query q = manager.createQuery("select t from Team t");
+		@SuppressWarnings("unchecked")
+		Collection<Team> list = q.getResultList();
+		return list;
+	}
+	
+	public Team getTeamById(int id) {
+		Team team = manager.find(Team.class, id);
+		team.getFootballers().size();
+		team.getMatches().size();
+		return team;
+	}
+	//Query q = manager.createQuery("select t from Team t JOIN FETCH t.footballers JOIN FETCH t.matches WHERE t.id = (:id)");
+		//Team team = (Team) q.setParameter(0, id).getSingleResult();
+		//return team;
+}

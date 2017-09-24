@@ -31,6 +31,11 @@ public class FootballerRepository {
 	}
 	
 	public Footballer getFootballerById(int id) {
-		return manager.find(Footballer.class, id);
+		Query q = manager.createQuery(
+				"select t from Footballer t " +
+				"left join fetch t.goals " +
+				"where t.id = :id ")
+				.setParameter("id", id);
+		return (Footballer)q.getSingleResult();
 	}
 }

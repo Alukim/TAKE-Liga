@@ -1,0 +1,104 @@
+package Program;
+
+import java.io.Console;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import Logs.LogsProvider;
+import Logs.NozzleMeasuresLog;
+import Logs.RefuelLog;
+import Logs.TankMeasuresLog;
+import Providers.DateProvider;
+import models.Consortiun;
+import models.PetrolStation;
+import models.Tank;
+
+public class Program {
+
+	public static String NOZZLE_MEASURES_LOGS_FILE_NAME = "NozzleMeasures.txt";
+	public static String TANK_MEASURES_LOGS_FILE_NAME = "TankMeasures.txt";
+	public static String REFUEL_LOGS_FILE_NAME = "Refuel.txt";
+	public static void main(String[] args) throws IOException {
+		int MINUTES_PER_DAY = 1440;
+		int DAYS_COUNT = 7;		
+		Consortiun consortium = new Consortiun();
+		consortium.createStations(1);
+		
+		for(int i = 0; i < DAYS_COUNT * MINUTES_PER_DAY; i++){
+			
+			System.out.println("=========" + DateProvider.getCurrentDateTime() + "=========");
+			
+			consortium.simulateStationsActivity();
+			DateProvider.moveTimeByNext();
+			
+			for (PetrolStation station : consortium.getStations()) {
+				System.out.println("-----------------------------------------------------");
+				for (Tank tank : station.tanks) {
+					System.out.println("Volume of tank with id " + tank.id + ": " + tank.getCurrentTankVolume());
+					System.out.println("-----------------------------------------------------");
+					generateTankMeasuresLogs(tank);
+				}
+				
+			}
+			System.out.println("=======================================================");
+		}
+		
+		saveLogsToFiles();
+		System.out.println();
+		System.out.println("sss");
+	}
+
+	private static void saveLogsToFiles() {
+		try {
+			PrintWriter writer = new PrintWriter(NOZZLE_MEASURES_LOGS_FILE_NAME, "UTF-8");
+			saveNozzleLogs(writer);
+			writer = new PrintWriter(REFUEL_LOGS_FILE_NAME, "UTF-8");
+			saveRefuelLogs(writer);
+			writer = new PrintWriter(TANK_MEASURES_LOGS_FILE_NAME, "UTF-8");
+			saveTankMeasuresLogs(writer);
+		} catch (Exception e) {
+			System.out.println("*************************** LOG SAVING FAILED ***************************");
+		}
+	}
+
+	private static void saveTankMeasuresLogs(PrintWriter writer) {
+		writer.println("DateTime;LocationId;MeterId;TankId;CurrentVolume;PetrolTemperature;WaterHigh;WaterVolume");
+		for (TankMeasuresLog log: LogsProvider.tankMeasuresLogs) {
+			writer.println(generateString(log.dateTime.toString(), log.locationId, log.meterId, String.valueOf(log.tankId), String.valueOf(log.currentVolume), String.valueOf(log.temperature),
+					String.valueOf(log.waterHigh), String.valueOf(log.waterVolume)));
+		}
+		writer.close();
+		
+	}
+
+	private static void saveRefuelLogs(PrintWriter writer) {
+		writer.println("DateTime;TankId;Volume;RefuelingSpeed");
+		for (RefuelLog log: LogsProvider.refuelLogs) {
+			writer.println(generateString(log.dateTime.toString(), String.valueOf(log.tankId), String.valueOf(log.volume), String.valueOf(log.stolenVolume), String.valueOf(log.refuelingSpeed)));
+		}
+		writer.close();
+	}
+
+	private static void saveNozzleLogs(PrintWriter writer) {
+		writer.println("DateTime;LocationId;NozzleId;TankId;LiterCounter;StolenCounter;Total;TotalStolen;Status");
+		for (NozzleMeasuresLog log: LogsProvider.nozzleMeasuresLogs) {
+			writer.println(generateString(log.dateTime.toString(), String.valueOf(log.locationId), String.valueOf(log.nozzleId), String.valueOf(log.tankId), String.valueOf(log.literCounter),
+					String.valueOf(log.stolenCounter), String.valueOf(log.totalCounter), String.valueOf(log.stolenVolume), String.valueOf(log.status)));
+		}
+		writer.close();
+	}
+
+	private static void generateTankMeasuresLogs(Tank tank) {
+		TankMeasuresLog log = new TankMeasuresLog(DateProvider.getCurrentDateTime(), tank.id, tank.tankHigh, tank.getCurrentTankVolume(), tank.petrolTemperature);
+		LogsProvider.tankMeasuresLogs.add(log);				
+	}
+	
+	private static String generateString(String... args){
+		String valueToReturn  = "";
+		for (String value : args) {
+			valueToReturn += value + ";";
+		}
+		return valueToReturn.substring(0, valueToReturn.length()-1);
+	}
+
+}

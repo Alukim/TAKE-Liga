@@ -1,0 +1,40 @@
+package models;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
+import java.util.Random;
+
+public class Supply {
+	public Supply(int tankId, float petrolAmount){
+		this.tankId = tankId;
+		this.petrolAmount = petrolAmount;
+		generateLoss();
+	}
+	
+	float petrolAmount;
+	float petrolLoss;
+	public LocalDate refuelDate;
+	public LocalTime refuelTime;
+	public int tankId;
+	public int refuelingTimeInMinutes;
+	
+	
+	void generateLoss() {
+		Random random = new Random();
+		//Check if a loss should be generated. It would be generated if randomly generated value would be equal 5;
+		int isGenerated = random.nextInt(6);
+		if(isGenerated == 6){
+			petrolLoss = 0.01f * petrolAmount;
+		}		
+	}
+	
+	public float getSupplyPetrolAmount(){
+		return petrolAmount - petrolLoss;
+	}
+
+	public void CompleteDataAboutSupply() {
+		// TODO Auto-generated method stub
+		
+	}
+}

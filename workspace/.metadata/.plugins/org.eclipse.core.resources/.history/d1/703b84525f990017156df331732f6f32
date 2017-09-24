@@ -1,0 +1,56 @@
+package models;
+
+import java.util.Random;
+
+import Exceptions.NotEnoughFuel;
+import Exceptions.TooMuchPetrol;
+
+public class Tank {
+	
+	public int id;
+	public float maxVolume;
+	float currentVolume;
+	public int petrolTemperature = 15; //Celsius deegres
+	public int tankHigh;
+	
+	public Tank(int id, float maxVolume){
+		this.id = id;
+		this.maxVolume = maxVolume;
+		this.currentVolume = maxVolume;
+	}
+	
+	public void Refuel(float supplyPetrolAmount) throws TooMuchPetrol {
+		System.out.println("Refueling tank. Tank volume before deliver = " + currentVolume);
+		float supplyAfterLeakage = checkIfPipeCracked(supplyPetrolAmount);
+		if(currentVolume + supplyPetrolAmount <= maxVolume)
+			currentVolume += supplyPetrolAmount;
+		else
+			throw new TooMuchPetrol();
+		
+		System.out.println("Tank volume after refueling: " + currentVolume);
+	}
+
+	
+	private float checkIfPipeCracked(float supplyPetrolAmount) {
+		Random random = new Random();
+		if(random.nextInt(100) == 99){
+			float supplyAfterLeakage = random.nextFloat() * supplyPetrolAmount;
+			System.out.println("Leakage of petrol during refueling tank. Supply volume: " + supplyAfterLeakage);
+			return supplyAfterLeakage;
+		}			
+		
+		return supplyPetrolAmount;
+	}
+
+	public float getCurrentTankVolume(){
+		return currentVolume;
+	}
+	
+	public void reservePetrol(float amount) throws NotEnoughFuel{
+		System.out.println("Reserving petrol for customer");
+		if(currentVolume < amount)
+			throw new NotEnoughFuel();
+		
+		currentVolume -= amount;
+	}
+}

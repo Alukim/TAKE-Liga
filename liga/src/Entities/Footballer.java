@@ -9,7 +9,9 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -25,24 +27,26 @@ public class Footballer implements Serializable{
 	@XmlAttribute
 	int id;
 	
-	@Column(name = "footballer.name")
+	@Column(name = "name")
 	String name;
 	
-	@Column(name = "footballer.surname")
+	@Column(name = "surname")
 	String surname;
 	
-	@Column(name = "footballer.age")
+	@Column(name = "age")
 	int age;
 	
-	@Column(name = "footballer.number")
+	@Column(name = "number")
 	int number;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "TeamId")
+	@ManyToOne
+	@JoinColumn(name = "teamId")
+	@JsonBackReference(value = "footballers")
 	Team team;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "footballer", orphanRemoval = true)
-	Collection<Goal> goals = new LinkedHashSet<Goal>();
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "footballer", orphanRemoval = true)
+	@JsonManagedReference(value = "goals")
+	Set<Goal> goals = new LinkedHashSet<Goal>();
 	
 	
 	public int getId() {
@@ -93,7 +97,7 @@ public class Footballer implements Serializable{
 		return goals;
 	}
 	
-	public void setGoals(Collection<Goal> goals){
+	public void setGoals(Set<Goal> goals){
 		this.goals = goals;
 	}
 	

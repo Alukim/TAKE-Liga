@@ -1,0 +1,23 @@
+package Logs;
+
+import java.time.LocalDateTime;
+
+public class TankMeasuresLog {
+	public LocalDateTime dateTime;
+	public String locationId = ""; //empty
+	public int meterId; //empty
+	public int tankId;
+	public int tankHigh;
+	public float currentVolume;
+	public int temperature;
+	public int waterHigh = 0;
+	public int waterVolume = 0;
+	public TankMeasuresLog(LocalDateTime dateTime, int tankId, int tankHigh, float currentVolume, int temperature) {
+		this.dateTime = dateTime;
+		this.tankId = tankId;
+		this.tankHigh = tankHigh;
+		this.currentVolume = currentVolume;
+		this.temperature = temperature;
+	}
+	
+}

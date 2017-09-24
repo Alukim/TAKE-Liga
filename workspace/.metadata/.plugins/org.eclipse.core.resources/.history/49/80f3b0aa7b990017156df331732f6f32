@@ -1,0 +1,19 @@
+package Providers;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+public class DateProvider {
+	
+	public static int minuteIterator = 1;
+	static LocalDateTime dateTime = LocalDateTime.of(2017, 1, 1, 0, 0);
+	
+	public static void moveTimeByNext(){
+		dateTime = dateTime.plusMinutes(minuteIterator);
+	}
+	
+	public static LocalDateTime getCurrentDateTime(){
+		return dateTime;
+	}
+}
