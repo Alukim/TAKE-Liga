@@ -1,9 +1,0 @@
-package Logs;
-
-import java.time.LocalDateTime;
-
-public class RefuelLog {
-	LocalDateTime dateTime;
-	int tankId;
-	float volume;
-}

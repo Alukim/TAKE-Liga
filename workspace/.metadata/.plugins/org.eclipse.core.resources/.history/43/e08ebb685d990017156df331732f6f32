@@ -1,7 +1,0 @@
-package Logs;
-
-import java.time.LocalDateTime;
-
-public interface ILog {
-	LocalDateTime dateTime;
-}

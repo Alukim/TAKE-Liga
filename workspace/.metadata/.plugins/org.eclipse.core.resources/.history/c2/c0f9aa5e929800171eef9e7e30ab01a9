@@ -1,7 +1,0 @@
-package Providers;
-
-import java.time.LocalDateTime;
-
-public class DateProvider {
-	LocalDateTime dateTime;
-}
