@@ -1,1 +1,2 @@
-TEST
+### Założenia projektu
+
