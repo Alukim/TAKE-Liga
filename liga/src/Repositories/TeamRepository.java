@@ -11,7 +11,7 @@ import Entities.Team;
 @Stateless
 public class TeamRepository {
 	
-	@PersistenceContext(name="Team")
+	@PersistenceContext(name="liga")
 	EntityManager manager;
 	
 	public void create(Team team) {

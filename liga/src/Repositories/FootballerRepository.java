@@ -12,7 +12,7 @@ import Entities.Footballer;
 @Stateless
 public class FootballerRepository {
 	
-	@PersistenceContext(name="Footballer")
+	@PersistenceContext(name="liga")
 	EntityManager manager;
 	
 	public void create(Footballer footballer) {

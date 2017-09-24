@@ -10,7 +10,7 @@ import Entities.Goal;
 @Stateless
 public class GoalRepository {
 	
-	@PersistenceContext(name="Goal")
+	@PersistenceContext(name="liga")
 	EntityManager manager;
 	
 	public void create(Goal goal) {

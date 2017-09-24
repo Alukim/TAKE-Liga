@@ -9,7 +9,7 @@ import Entities.Match;
 
 @Stateless
 public class MatchRepository {
-	@PersistenceContext(name="Match")
+	@PersistenceContext(name="liga")
 	EntityManager manager;
 	
 	public void create(Match match) {
