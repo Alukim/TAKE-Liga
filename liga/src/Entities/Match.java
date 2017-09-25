@@ -1,7 +1,11 @@
 package Entities;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -38,12 +43,11 @@ public class Match implements Serializable {
 	@Column(name = "id")
 	@XmlAttribute
 	int id;
+	
 	@Column(name = "date")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") 
-	LocalDate date;
-	@Column(name = "time")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm")
-	LocalTime time;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm") 
+	Date date;
+	
 	@Column(name = "city")
 	String city;
 	
@@ -71,30 +75,13 @@ public class Match implements Serializable {
 	}
 	
 	
-	public LocalDate getDate(){
+	public Date getDate(){
 		return date;
 	}
 	
-	public void setDate(LocalDate date){
-		this.date = date;
-	}
-	
-	public void setDate(String date){
-		this.date = LocalDate.parse(date);
-	}
-	
-	
-	
-	public LocalTime getTime(){
-		return time;
-	}
-	
-	public void setTime(LocalTime time){
-		this.time = time;
-	}
-	
-	public void setTime(String time){
-		this.time = LocalTime.parse(time);
+	public void setDate(String dateString) throws ParseException {
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm z");
+		this.date = format.parse(dateString + " GMT+00:00");
 	}
 
 	public Team getHostTeam() {

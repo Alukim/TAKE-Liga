@@ -44,7 +44,7 @@ public class Team implements Serializable {
 	@JsonManagedReference(value="footballers")
 	Set<Footballer> footballers = new LinkedHashSet<Footballer>();
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "team", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	Set<Match> matches = new LinkedHashSet<Match>();
 	
 	

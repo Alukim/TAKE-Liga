@@ -14,7 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import DTO.Team.TeamsListResponse;
 import Entities.Team;
 import Repositories.TeamRepository;
 

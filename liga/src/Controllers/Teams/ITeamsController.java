@@ -1,11 +1,9 @@
 package Controllers.Teams;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.ejb.Local;
 import javax.ws.rs.core.Response;
-import DTO.Team.TeamsListResponse;
 import Entities.Team;
 
 @Local
