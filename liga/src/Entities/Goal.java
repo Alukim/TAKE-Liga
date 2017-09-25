@@ -1,7 +1,11 @@
 package Entities;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.*;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +17,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "goal")
@@ -25,7 +30,8 @@ public class Goal implements Serializable {
 	int id;
 	
 	@Column(name = "time")
-	LocalTime time;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm") 
+	Date time;
 	
 	@Column(name = "teamName")
 	String teamName;
@@ -66,18 +72,14 @@ public class Goal implements Serializable {
 	}
 	
 	
-	public LocalTime getTime(){
+	public Date getTime(){
 		return time;
 	}
 	
-	public void setTime(LocalTime time){
-		this.time = time;
-	}
-	
 	public void setTime(String time){
-		this.time = LocalTime.parse(time);
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm z");
+		this.time = format.parse(time + " GMT+00:00");
 	}
-	
 	
 	public String getTeamName(){
 		return teamName;
