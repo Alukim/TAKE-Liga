@@ -373,3 +373,738 @@ public class Goal implements Serializable {
 	}
 }
 ```
+
+# Kontrolery
+
+### Akcje kontrolerów
+* `POST` - Tworzenie i zapis nowego obiektu danej encji	
+* `PUT` - Uaktualnienie danej encji
+* `GET` - pobranie z serwera encji na podstawie jej Id lub kolekcji encji zapisanych w bazie
+
+### Team
+#### ITeamController
+```java
+@Local
+public interface ITeamsController {
+	public abstract Response create(Team team);
+	public abstract Response update(int id, Team team);
+	public abstract Team getById(int id);
+	public abstract Collection<Team> getList();
+}
+
+```
+
+#### TeamController
+```java
+@Path("/teams")
+@Consumes({ "application/json" })
+@Produces({ "application/json" })
+public class TeamsController implements ITeamsController {
+
+	@EJB
+	TeamRepository repository;
+	
+	@Override
+	@POST
+	@Path("/")
+	public Response create(Team team) {
+		repository.create(team);
+		return Response.status(Status.CREATED).entity(team).build();
+	}
+
+	@Override
+	@PUT
+	@Path("/{id}")
+	public Response update(@PathParam("id") int id, Team team) {
+		try {
+			team.setId(id);
+			repository.update(team);
+			return Response.status(Status.OK).build();
+		}
+		catch(Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+		}
+	}
+
+	@Override
+	@GET
+	@Path("/{id}")
+	public Team getById(@PathParam("id") int id) {
+		return repository.getTeamById(id);
+	}
+
+	@Override
+	@GET
+	@Path("/")
+	public Collection<Team> getList() {
+		Collection<Team> teams = repository.getList();
+		return teams;
+	}
+
+}
+```
+
+#### Create
+##### Request
+* `POST`
+
+```
+{
+	"name": string,
+	"city": string,
+	"league": string
+}
+```
+##### Response
+* `201`
+<br>
+
+#### Update
+##### Request
+* `PUT`
+
+```
+{
+	"name": string,
+	"city": string,
+	"league": string
+}
+```
+##### Response
+* `200`
+<br>
+
+#### GetById
+##### Request
+* `GET`
+	* `id`
+
+##### Response
+* `200`
+```
+{
+	"id": int,
+	"name": string,
+	"city": string,
+	"league": string,
+	"footballers": [
+		{
+			"id": int,
+			"name": string,
+			"surname": string,
+			"age": int,
+			"number": int,
+			"goals": []
+		}
+	],
+	"matches": []
+}
+```
+
+#### GetList
+##### Request
+* `GET`
+
+##### Response
+`200`
+```
+[
+    {
+		"id": int,
+		"name": string,
+		"city": string,
+		"league": string,
+		"footballers": [
+			{
+				"id": int,
+				"name": string,
+				"surname": string,
+				"age": int,
+				"number": int,
+				"goals": []
+			}
+		],
+		"matches": []
+	}
+]
+```
+
+### Footballer
+#### IFootballersController
+```java
+@Local
+public interface IFootballersController {
+	public abstract Response create(Footballer footballer);
+	public abstract Response update(int id, Footballer footballer);
+	public abstract Footballer getById(int id);
+	public abstract FootballersListResponse getList();
+}
+```
+#### FootballerController
+```java
+@Path("/footballers")
+@Consumes({ "application/json" })
+@Produces({ "application/json" })
+public class FootballersController implements IFootballersController {
+	
+	@EJB
+	FootballerRepository repository;
+	
+	@Override
+	@POST
+	@Path("/")
+	public Response create(Footballer footballer) {
+		repository.create(footballer);
+		return Response.status(Status.CREATED).entity(footballer.getId()).build();
+	}
+
+	@Override
+	@PUT
+	@Path("/{id}")
+	public Response update(@PathParam("id") int id, Footballer footballer) {
+		try {
+			footballer.setId(id);
+			repository.update(footballer);
+			return Response.status(Status.OK).build();
+		}
+		catch(Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+		}
+	}
+	
+	@Override
+	@GET
+	@Path("/{id}")
+	public Footballer getById(@PathParam("id") int id) {
+		Footballer footballer = repository.getFootballerById(id);
+		return footballer;
+	}
+
+	@Override
+	@GET
+	@Path("/")
+	public FootballersListResponse getList() {
+		List<Footballer> listOfFootballers = repository.getList();
+		FootballersListResponse footballers = new FootballersListResponse(listOfFootballers);
+		return footballers;
+	}
+}
+```
+#### Create
+##### Request
+* `POST`
+
+```
+{
+	"name": string,
+	"surname": string,
+	"age": int,
+	"number": int,
+	"team": {
+	    "id": int,
+	    "name": string,
+	    "city": string,
+	    "league": string
+	}
+}
+```
+##### Response
+* `201`
+<br>
+
+#### Update
+##### Request
+* `PUT`
+```
+{
+	"name": string,
+	"surname": string,
+	"age": int,
+	"number": int,
+	"team": {
+	    "id": int,
+	    "name": string,
+	    "city": string,
+	    "league": string
+	}
+}
+```
+##### Response
+* `200`
+<br>
+
+#### GetById
+##### Request
+* `GET`
+	* `id`
+
+##### Response
+* `200`
+```
+{
+	"id": int,
+	"name": string,
+	"surname": string,
+	"age": int,
+	"number": int,
+	"goals": []
+}
+```
+<br>
+
+#### GetList
+##### Request
+* `GET`
+
+##### Response
+`200`
+```
+{
+    "footballers": [
+        {
+            "id": int,
+            "name": string,
+            "surname": string,
+            "age": int,
+            "number": int,
+            "goals": []
+        }
+    ]
+}
+```
+
+### Match
+#### IMatchController
+```java
+@Local
+public interface IMatchesController {
+	public abstract Response create(Match match);
+	public abstract Response update(int id, Match match);
+	public abstract Match getById(int id);
+	public abstract MatchesListResponse getList();
+}
+```
+#### MatchController
+```java
+@Path("/matches")
+@Consumes({ "application/json" })
+@Produces({ "application/json" })
+public class MatchesController implements IMatchesController {
+
+	@EJB
+	MatchRepository repository;
+	
+	@Override
+	@POST
+	@Path("/")
+	public Response create(Match match) {
+		repository.create(match);
+		return Response.status(Status.CREATED).entity(match.getId()).build();
+	}
+
+	@Override
+	@PUT
+	@Path("/{id}")
+	public Response update(@PathParam("id") int id, Match match) {
+		try {
+			match.setId(id);
+			repository.update(match);
+			return Response.status(Status.OK).build();
+		}
+		catch(Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+		}
+	}
+
+	@Override
+	@GET
+	@Path("/{id}")
+	public Match getById(@PathParam("id") int id) {
+		return repository.getMatchById(id);
+	}
+
+	@Override
+	@GET
+	@Path("/")
+	public MatchesListResponse getList() {
+		List<Match> matches = repository.getList();
+		return new MatchesListResponse(matches);
+	}
+}
+```
+
+#### Create
+##### Request
+* `POST`
+
+```
+{
+	"date": string,
+	"time": string,
+	"city": string,
+	"hostTeam": {
+		"id": int,
+	    "name": string,
+	    "city": string,
+	    "league": string
+	},
+	"guestTeam": {
+		"id": int,
+	    "name": string,
+	    "city": string,
+	    "league": string
+	}
+}
+```
+##### Response
+* `201`
+<br>
+
+#### Update
+##### Request
+* `PUT`
+```
+{
+	"date": string,
+	"time": string,
+	"city": string,
+	"hostTeam": {
+		"id": int,
+	    "name": string,
+	    "city": string,
+	    "league": string
+	},
+	"guestTeam": {
+		"id": int,
+	    "name": string,
+	    "city": string,
+	    "league": string
+	}
+}
+```
+##### Response
+* `200`
+<br>
+
+#### GetById
+##### Request
+* `GET`
+	* `id`
+
+##### Response
+* `200`
+```
+{
+	"id": int,
+	"date": {
+		"year": int,
+		"month": string,
+		"era": string,
+		"dayOfMonth": int,
+		"dayOfWeek": string,
+		"dayOfYear": int,
+		"leapYear": boolean,
+		"monthValue": int,
+		"chronology": {
+			"id": string,
+			"calendarType": string
+		}
+	},
+	"time": {
+		"hour": int,
+		"minute": int,
+		"second": int,
+		"nano": int
+	},
+	"city": string,
+	"goals": [],
+	"hostTeam": {
+		"id": int,
+		"name": string,
+		"city": string,
+		"league": string,
+		"footballers": [
+			{
+				"id": int,
+				"name": string,
+				"surname": string,
+				"age": int,
+				"number": int,
+				"goals": []
+			}
+		],
+		"matches": []
+	},
+	"guestTeam": {
+		"id": int,
+		"name": string,
+		"city": string,
+		"league": string,
+		"footballers": [
+			{
+				"id": int,
+				"name": string,
+				"surname": string,
+				"age": int,
+				"number": int,
+				"goals": []
+			}
+		],
+		"matches": []
+	}
+}
+```
+<br>
+
+#### GetList
+##### Request
+* `GET`
+
+##### Response
+`200`
+```
+{
+    "matches": [
+        {
+            "id": int,
+            "date": {
+                "year": int,
+                "month": string,
+                "era": string,
+                "dayOfMonth": int,
+                "dayOfWeek": string,
+                "dayOfYear": int,
+                "leapYear": boolean,
+                "monthValue": int,
+                "chronology": {
+                    "id": string,
+                    "calendarType": string
+                }
+            },
+            "time": {
+                "hour": int,
+                "minute": int,
+                "second": int,
+                "nano": int
+            },
+            "city": string,
+            "goals": [],
+            "hostTeam": {
+                "id": int,
+                "name": string,
+                "city": string,
+                "league": string,
+                "footballers": [
+                    {
+						"id": int,
+						"name": string,
+						"surname": string,
+						"age": int,
+						"number": int,
+						"goals": []
+					}
+                ],
+                "matches": []
+            },
+            "guestTeam": {
+                "id": int,
+                "name": string,
+                "city": string,
+                "league": string,
+                "footballers": [
+                    {
+						"id": int,
+						"name": string,
+						"surname": string,
+						"age": int,
+						"number": int,
+						"goals": []
+					}
+                ],
+                "matches": []
+            }
+        }
+    ]
+}
+```
+
+### Goal
+#### IGoalsController
+```java
+@Local
+public interface IGoalsController {
+	public abstract Response create(Goal team);
+	public abstract Response update(int id, Goal team);
+	public abstract Goal getById(int id);
+	public abstract GoalsListResponse getList();
+}
+```
+#### GoalsController
+```java
+@Path("/goals")
+@Consumes({ "application/json" })
+@Produces({ "application/json" })
+public class GoalsController implements IGoalsController{
+
+	@EJB
+	GoalRepository repository;
+	
+	@Override
+	@POST
+	@Path("/")
+	public Response create(Goal goal) {
+		repository.create(goal);
+		return Response.status(Status.CREATED).entity(goal.getId()).build();
+	}
+
+	@Override
+	@PUT
+	@Path("/{id}")
+	public Response update(@PathParam("id") int id, Goal goal) {
+		
+		try {
+			goal.setId(id);
+			repository.update(goal);
+			return Response.status(Status.OK).build();
+		}
+		catch(Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+		}
+	}
+
+	@Override
+	@GET
+	@Path("/{id}")
+	public Goal getById(@PathParam("id") int id) {
+		return repository.getGoalById(id);
+	}
+
+	@Override
+	@GET
+	@Path("/")
+	public GoalsListResponse getList() {
+		List<Goal> goals = repository.getList();
+		return new GoalsListResponse(goals);
+	}
+
+}
+```
+
+#### Create
+##### Request
+* `POST`
+
+```
+{
+	"time": string,
+	"teamName": string,
+	"footballer":{
+		"id": int,
+		"name": string,
+		"surname": string,
+		"age": int,
+		"number": int
+	},
+	"match":{
+		"date": string,
+		"time": string,
+		"city": string,
+		"hostTeam": {
+			"id": int,
+			"name": string,
+			"city": string,
+			"league": string
+		},
+		"guestTeam": {
+			"id": int,
+			"name": string,
+			"city": string,
+			"league": string
+		}
+	}
+}
+```
+##### Response
+* `201`
+<br>
+
+#### Update
+##### Request
+* `PUT`
+```
+{
+	"time": string,
+	"teamName": string,
+	"footballer":{
+		"id": int,
+		"name": string,
+		"surname": string,
+		"age": int,
+		"number": int
+	},
+	"match":{
+		"date": string,
+		"time": string,
+		"city": string,
+		"hostTeam": {
+			"id": int,
+			"name": string,
+			"city": string,
+			"league": string
+		},
+		"guestTeam": {
+			"id": int,
+			"name": string,
+			"city": string,
+			"league": string
+		}
+	}
+}
+```
+##### Response
+* `200`
+<br>
+
+#### GetById
+##### Request
+* `GET`
+	* `id`
+
+##### Response
+* `200`
+```
+{
+	"id": int,
+	"time": {
+		"hour": int,
+		"minute": int,
+		"second": int,
+		"nano": int
+	},
+	"teamName": string
+}
+```
+<br>
+
+#### GetList
+##### Request
+* `GET`
+
+##### Response
+`200`
+```
+{
+    "goals": [
+        {
+            "id": int,
+            "time": {
+                "hour": int,
+                "minute": int,
+                "second": int,
+                "nano": int
+            },
+            "teamName": string
+        }
+    ]
+}
+```
