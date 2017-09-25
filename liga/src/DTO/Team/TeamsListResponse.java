@@ -3,7 +3,6 @@ package DTO.Team;
 import java.util.ArrayList;
 import java.util.List;
 
-import Entities.Footballer;
 import Entities.Team;
 
 public class TeamsListResponse {

@@ -1,7 +1,5 @@
 package Controllers.Goals;
 
-import java.util.List;
-
 import javax.ejb.Local;
 import javax.ws.rs.core.Response;
 import DTO.Goal.GoalsListResponse;
