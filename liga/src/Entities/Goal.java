@@ -2,6 +2,7 @@ package Entities;
 
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
@@ -76,9 +77,9 @@ public class Goal implements Serializable {
 		return time;
 	}
 	
-	public void setTime(String time){
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm z");
-		this.time = format.parse(time + " GMT+00:00");
+	public void setTime(String time) throws ParseException{
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		this.time = format.parse(time);
 	}
 	
 	public String getTeamName(){

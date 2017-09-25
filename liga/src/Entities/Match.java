@@ -77,8 +77,8 @@ public class Match implements Serializable {
 	}
 	
 	public void setDate(String dateString) throws ParseException {
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm z");
-		this.date = format.parse(dateString + " GMT+00:00");
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		this.date = format.parse(dateString);
 	}
 
 	public Team getHostTeam() {
