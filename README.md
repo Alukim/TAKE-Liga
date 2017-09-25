@@ -203,12 +203,11 @@ public class Match implements Serializable {
 	@Column(name = "id")
 	@XmlAttribute
 	int id;
+	
 	@Column(name = "date")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") 
-	LocalDate date;
-	@Column(name = "time")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm")
-	LocalTime time;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm") 
+	Date date;
+	
 	@Column(name = "city")
 	String city;
 	
@@ -236,30 +235,13 @@ public class Match implements Serializable {
 	}
 	
 	
-	public LocalDate getDate(){
+	public Date getDate(){
 		return date;
 	}
 	
-	public void setDate(LocalDate date){
-		this.date = date;
-	}
-	
-	public void setDate(String date){
-		this.date = LocalDate.parse(date);
-	}
-	
-	
-	
-	public LocalTime getTime(){
-		return time;
-	}
-	
-	public void setTime(LocalTime time){
-		this.time = time;
-	}
-	
-	public void setTime(String time){
-		this.time = LocalTime.parse(time);
+	public void setDate(String dateString) throws ParseException {
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		this.date = format.parse(dateString);
 	}
 
 	public Team getHostTeam() {
@@ -293,7 +275,6 @@ public class Match implements Serializable {
 	public void setGoals(Set<Goal> goals){
 		this.goals = goals;
 	}
-
 }
 ```
 
@@ -310,7 +291,8 @@ public class Goal implements Serializable {
 	int id;
 	
 	@Column(name = "time")
-	LocalTime time;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm") 
+	Date time;
 	
 	@Column(name = "teamName")
 	String teamName;
@@ -351,18 +333,14 @@ public class Goal implements Serializable {
 	}
 	
 	
-	public LocalTime getTime(){
+	public Date getTime(){
 		return time;
 	}
 	
-	public void setTime(LocalTime time){
-		this.time = time;
+	public void setTime(String time) throws ParseException{
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		this.time = format.parse(time);
 	}
-	
-	public void setTime(String time){
-		this.time = LocalTime.parse(time);
-	}
-	
 	
 	public String getTeamName(){
 		return teamName;
@@ -740,7 +718,6 @@ public class MatchesController implements IMatchesController {
 ```
 {
 	"date": string,
-	"time": string,
 	"city": string,
 	"hostTeam": {
 		"id": int,
@@ -766,7 +743,6 @@ public class MatchesController implements IMatchesController {
 ```
 {
 	"date": string,
-	"time": string,
 	"city": string,
 	"hostTeam": {
 		"id": int,
@@ -796,26 +772,7 @@ public class MatchesController implements IMatchesController {
 ```
 {
 	"id": int,
-	"date": {
-		"year": int,
-		"month": string,
-		"era": string,
-		"dayOfMonth": int,
-		"dayOfWeek": string,
-		"dayOfYear": int,
-		"leapYear": boolean,
-		"monthValue": int,
-		"chronology": {
-			"id": string,
-			"calendarType": string
-		}
-	},
-	"time": {
-		"hour": int,
-		"minute": int,
-		"second": int,
-		"nano": int
-	},
+	"date": string,
 	"city": string,
 	"goals": [],
 	"hostTeam": {
@@ -867,26 +824,7 @@ public class MatchesController implements IMatchesController {
     "matches": [
         {
             "id": int,
-            "date": {
-                "year": int,
-                "month": string,
-                "era": string,
-                "dayOfMonth": int,
-                "dayOfWeek": string,
-                "dayOfYear": int,
-                "leapYear": boolean,
-                "monthValue": int,
-                "chronology": {
-                    "id": string,
-                    "calendarType": string
-                }
-            },
-            "time": {
-                "hour": int,
-                "minute": int,
-                "second": int,
-                "nano": int
-            },
+            "date": string,
             "city": string,
             "goals": [],
             "hostTeam": {
@@ -986,7 +924,6 @@ public class GoalsController implements IGoalsController{
 		List<Goal> goals = repository.getList();
 		return new GoalsListResponse(goals);
 	}
-
 }
 ```
 
@@ -1044,7 +981,6 @@ public class GoalsController implements IGoalsController{
 	},
 	"match":{
 		"date": string,
-		"time": string,
 		"city": string,
 		"hostTeam": {
 			"id": int,
@@ -1075,12 +1011,7 @@ public class GoalsController implements IGoalsController{
 ```
 {
 	"id": int,
-	"time": {
-		"hour": int,
-		"minute": int,
-		"second": int,
-		"nano": int
-	},
+	"time": string,
 	"teamName": string
 }
 ```
@@ -1097,12 +1028,7 @@ public class GoalsController implements IGoalsController{
     "goals": [
         {
             "id": int,
-            "time": {
-                "hour": int,
-                "minute": int,
-                "second": int,
-                "nano": int
-            },
+            "time": string,
             "teamName": string
         }
     ]
